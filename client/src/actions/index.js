@@ -1,14 +1,14 @@
 import axios from 'axios';
-import { FETCH_USER, SPOTIFY_TOKENS, SPOTIFY_ME } from './types';
+import { FETCH_USER, SPOTIFY_TOKENS, SPOTIFY_ME_INIT } from './types';
 import Spotify from 'spotify-web-api-js';
 
 const spotifyApi = new Spotify();
 
 // thunk automatically passes on dispatch
 export const fetch_user = () => async dispatch => {
-  const res = await axios.get('/api/current_user');
-  //console.log('action data');
-  //console.log(res.data);
+  const res = await axios.get('/db/current_user');
+  console.log('action data');
+  console.log(res.data);
   dispatch({ type: FETCH_USER, payload: res.data });
 };
 
@@ -25,5 +25,5 @@ export const get_me = aToken => async dispatch => {
   const me = await spotifyApi.getMe();
   console.log(me);
 
-  return { type: SPOTIFY_ME, payload: me };
+  return { type: SPOTIFY_ME_INIT, payload: me };
 };

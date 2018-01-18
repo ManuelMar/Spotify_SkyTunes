@@ -28,27 +28,44 @@ passport.use(
       proxy: true
     },
     async (accessToken, refreshToken, profile, done) => {
-      const existingUser = await User.findOne({ spotifyID: profile.id });
+      const existingUser = await User.findOne({
+        profile: { spotifyID: profile.id, userName: profile.username }
+      });
+      console.log('the existing user is :::');
+      console.log(existingUser);
       if (existingUser) {
-        const userf = {
-          profile: existingUser,
-          accessToken: accessToken,
-          refreshToken: refreshToken
-        };
-        return done(null, userf);
+        const userdb = await User.findOneAndUpdate(
+          { profile: { spotifyID: profile.id, userName: profile.username } },
+          { $set: { accessToken: accessToken, refreshToken: refreshToken } }
+        );
+
+        return done(null, userdb);
       }
 
       const user = await new User({
-        spotifyID: profile.id,
-        userName: profile.username
-      }).save();
-
-      const userf = {
-        profile: user,
+        profile: {
+          spotifyID: profile.id,
+          userName: profile.username
+        },
         accessToken: accessToken,
         refreshToken: refreshToken
-      };
-      done(null, userf);
+      }).save();
+      done(null, user);
     }
   )
 );
+
+/*
+const userf = {
+  accessToken: accessToken,
+  refreshToken: refreshToken
+};
+*/
+
+/*
+const userf = {
+  profile: user,
+  accessToken: accessToken,
+  refreshToken: refreshToken
+};
+*/

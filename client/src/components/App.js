@@ -26,10 +26,7 @@ class App extends Component {
           <div className="container">
             <Header />
             <Route exact path="/" component={Landing} />
-            <Route
-              path="/user/:accessToken/:refreshToken"
-              component={Dashboard}
-            />
+            <Route exact path="/music" component={Dashboard} />
           </div>
         </BrowserRouter>
       </div>

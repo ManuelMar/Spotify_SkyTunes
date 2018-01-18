@@ -22,6 +22,11 @@ module.exports = app => {
     }
   );
 
+  app.get('/db/current_user', (req, res) => {
+    console.log(req.user);
+    res.send(req.user);
+  });
+
   app.get('/api/current_user', (req, res) => {
     if (req.user) {
       spotifyApi.setAccessToken(req.user.accessToken);
@@ -54,7 +59,8 @@ module.exports = app => {
       spotifyApi.setAccessToken(req.user.accessToken);
       spotifyApi.setRefreshToken(req.user.refreshToken);
       //TODO: Save only refresh token and use it to get new access tokens every 30 min or so
-      res.redirect(`/user/${req.user.accessToken}/${req.user.refreshToken}`);
+      //res.redirect(`/user/${req.user.accessToken}/${req.user.refreshToken}`);
+      res.redirect('/music');
     }
   );
 };

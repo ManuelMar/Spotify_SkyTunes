@@ -9,7 +9,9 @@ class Header extends Component {
         to={this.props.auth ? '/music' : '/'}
         className="brand-logo left green-text text-accent-3"
       >
-        {this.props.auth ? `Hi ${this.props.auth.userName}` : 'SkyTunes'}
+        {this.props.auth
+          ? `Hi ${this.props.auth.profile.userName}`
+          : 'SkyTunes'}
       </Link>
     );
   }
