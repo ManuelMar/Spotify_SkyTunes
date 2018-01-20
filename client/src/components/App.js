@@ -15,8 +15,21 @@ const Dashboard = () => {
 };*/
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      done: false
+    };
+  }
+
   componentDidMount() {
-    this.props.fetch_user();
+    this.props.fetch_user().then(res => {
+      //console.log('DONE FETCHING USER');
+      this.props.fetch_now_playing().then(() => {
+        //console.log('got now playing');
+        this.setState({ done: true });
+      });
+    });
   }
 
   render() {

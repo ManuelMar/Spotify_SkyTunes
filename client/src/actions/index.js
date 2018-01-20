@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FETCH_USER, SPOTIFY_TOKENS, SPOTIFY_ME_INIT } from './types';
+import { FETCH_USER, FETCH_NOW_PLAYING, FETCH_TRACK_INFO } from './types';
 import Spotify from 'spotify-web-api-js';
 
 const spotifyApi = new Spotify();
@@ -9,21 +9,22 @@ export const fetch_user = () => async dispatch => {
   const res = await axios.get('/db/current_user');
   console.log('action data');
   console.log(res.data);
+  spotifyApi.setAccessToken(res.data.accessToken);
+  const me = await spotifyApi.getMe();
   dispatch({ type: FETCH_USER, payload: res.data });
 };
 
-export const set_spotify_tokens = (aToken, rToken) => async dispatch => {
-  if (aToken) {
+export const fetch_now_playing = () => async (dispatch, getState) => {
+  console.log('fetch_now_playing');
+  console.log('getting state in action');
+  const resFail = null;
+
+  if (getState().auth) {
+    const aToken = getState().auth.accessToken;
     spotifyApi.setAccessToken(aToken);
-    //SpotifyAPi.setRefreshToken(rToken);
+    const res = await spotifyApi.getMyCurrentPlayingTrack();
+    dispatch({ type: FETCH_NOW_PLAYING, payload: res });
+  } else {
+    dispatch({ type: FETCH_NOW_PLAYING, payload: resFail });
   }
-
-  return { type: SPOTIFY_TOKENS, payload: { aToken, rToken } };
-};
-
-export const get_me = aToken => async dispatch => {
-  const me = await spotifyApi.getMe();
-  console.log(me);
-
-  return { type: SPOTIFY_ME_INIT, payload: me };
 };

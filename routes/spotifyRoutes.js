@@ -13,7 +13,13 @@ module.exports = app => {
   app.get(
     '/auth/spotify',
     passport.authenticate('spotify', {
-      scope: ['user-read-email', 'user-read-private']
+      scope: [
+        'user-read-email',
+        'user-read-private',
+        'user-read-recently-played',
+        'user-read-playback-state',
+        'user-read-currently-playing'
+      ]
     }),
     (req, res) => {
       // The request will be redirected to spotify for authentication, so this

@@ -1,10 +1,8 @@
 import { combineReducers } from 'redux';
 import authReducer from './authReducer';
-import tokenReducer from './tokenReducer';
-import spotifyMeReducer from './spotifyMeReducer';
+import nowPlayingReducer from './nowPlayingReducer';
 
 export default combineReducers({
   auth: authReducer,
-  tokens: tokenReducer,
-  me: spotifyMeReducer
+  nowPlaying: nowPlayingReducer
 });
