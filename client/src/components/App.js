@@ -23,6 +23,8 @@ class App extends Component {
   }
 
   componentDidMount() {
+    document.body.style.backgroundColor = '#d5d5d5';
+
     this.props.fetch_user().then(res => {
       //console.log('DONE FETCHING USER');
       this.props.fetch_now_playing().then(() => {
@@ -36,7 +38,7 @@ class App extends Component {
     return (
       <div>
         <BrowserRouter>
-          <div className="container">
+          <div>
             <Header />
             <Route exact path="/" component={Landing} />
             <Route exact path="/music" component={Dashboard} />

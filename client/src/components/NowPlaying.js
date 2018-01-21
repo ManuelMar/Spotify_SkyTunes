@@ -22,14 +22,24 @@ class NowPlaying extends Component {
               <div className="card">
                 <div className="card-image">
                   <img src={this.props.track.album.images[0].url} />
-                  <span className="card-title">
+                  <span
+                    className="card-title"
+                    style={{ fontWeight: 'bold', fontSize: '5 em' }}
+                  >
                     {this.props.track.album.name}
                   </span>
                 </div>
                 <div className="card-content">
-                  <p>
-                    {this.props.track.name}
-                  </p>
+                  <ul>
+                    <li>
+                      <h4>
+                        {this.props.track.artists[0].name}
+                      </h4>
+                    </li>
+                    <li>
+                      {this.props.track.name}
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>
@@ -43,7 +53,7 @@ class NowPlaying extends Component {
     console.log('now playing props:');
     console.log(this.props);
     return (
-      <div>
+      <div style={{ backgroundColor: '#4c4747' }}>
         {this.renderCard()}
       </div>
     );
@@ -55,28 +65,3 @@ function mapStateToProps({ track }) {
 }
 
 export default connect(mapStateToProps, actions)(NowPlaying);
-
-/*
-<div>
-  <div className="card medium ">
-    <div className="card-image">
-      <img
-        className="albumCover"
-        style={{ height: '250' }}
-        src={this.props.track.album.images[0].url}
-      />
-      <span className="card-title">
-        {this.props.track.album.name}
-      </span>
-    </div>
-    <div className="card-content">
-      <h3>
-        {this.props.track.name}
-      </h3>
-    </div>
-    <div className="card-action">
-      <a href="#">This is a link</a>
-    </div>
-  </div>
-</div>
-*/

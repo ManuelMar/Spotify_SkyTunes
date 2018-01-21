@@ -35,10 +35,14 @@ class Header extends Component {
   render() {
     console.log(this.props);
     return (
-      <nav>
-        <div className="nav-wrapper grey darken-3">
+      <nav style={{ padding: '2 px' }}>
+        <div className="nav-wrapper" style={{ backgroundColor: '#2b2927' }}>
           {this.renderNavLeft()}
-          <ul id="nav-mobile " className="right green-text text-accent-3">
+          <ul
+            id="nav-mobile "
+            className="right green-text text-accent-3"
+            style={{ fontWeight: 'bold' }}
+          >
             {this.renderNavRight()}
           </ul>
         </div>
