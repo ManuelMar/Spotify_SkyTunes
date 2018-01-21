@@ -16,11 +16,10 @@ class Dashboard extends Component {
   }
 
   render() {
-    console.log('dashboard NP');
-    console.log(this.props.nowPlaying);
+    //console.log('dashboard NP');
+    //console.log(this.props.nowPlaying);
     return (
       <div>
-        <h2>Dashboard </h2>
         {this.renderNowPlaying()}
       </div>
     );

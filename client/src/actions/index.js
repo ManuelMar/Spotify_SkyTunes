@@ -7,16 +7,16 @@ const spotifyApi = new Spotify();
 // thunk automatically passes on dispatch
 export const fetch_user = () => async dispatch => {
   const res = await axios.get('/db/current_user');
-  console.log('action data');
-  console.log(res.data);
+  //console.log('action data');
+  //console.log(res.data);
   spotifyApi.setAccessToken(res.data.accessToken);
   const me = await spotifyApi.getMe();
   dispatch({ type: FETCH_USER, payload: res.data });
 };
 
 export const fetch_now_playing = () => async (dispatch, getState) => {
-  console.log('fetch_now_playing');
-  console.log('getting state in action');
+  //console.log('fetch_now_playing');
+  //console.log('getting state in action');
   const resFail = null;
 
   if (getState().auth) {
@@ -26,5 +26,16 @@ export const fetch_now_playing = () => async (dispatch, getState) => {
     dispatch({ type: FETCH_NOW_PLAYING, payload: res });
   } else {
     dispatch({ type: FETCH_NOW_PLAYING, payload: resFail });
+  }
+};
+
+export const fetch_track_info = trackId => async (dispatch, getState) => {
+  if (getState().auth) {
+    const aToken = getState().auth.accessToken;
+    spotifyApi.setAccessToken(aToken);
+    const res = await spotifyApi.getTrack(trackId);
+    dispatch({ type: FETCH_TRACK_INFO, payload: res });
+  } else {
+    dispatch({ type: FETCH_TRACK_INFO, payload: null });
   }
 };
