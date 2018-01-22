@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import '../style/navStyle.css';
 
 class Header extends Component {
   renderNavLeft() {
     return (
-      <Link
-        to={this.props.auth ? '/music' : '/'}
-        className="brand-logo left green-text text-accent-3"
-      >
+      <Link to={this.props.auth ? '/music' : '/'} className="brand-logo left">
+        <img
+          className="logo"
+          src="https://www.iconsdb.com/icons/preview/guacamole-green/spotify-xxl.png"
+        />
         {this.props.auth
           ? `Hi ${this.props.auth.profile.userName}`
           : 'SkyTunes'}
@@ -18,7 +20,7 @@ class Header extends Component {
 
   renderNavRight() {
     if (this.props.auth === null) {
-      return;
+      return <a href="/auth/spotify">Login with Spotify</a>;
     } else if (this.props.auth === false) {
       return <a href="/auth/spotify">Login with Spotify</a>;
     } else {

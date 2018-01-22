@@ -16,8 +16,6 @@ class Dashboard extends Component {
   }
 
   render() {
-    //console.log('dashboard NP');
-    //console.log(this.props.nowPlaying);
     return (
       <div>
         {this.renderNowPlaying()}
@@ -31,29 +29,3 @@ function mapStateToProps({ auth, nowPlaying }) {
 }
 
 export default connect(mapStateToProps, actions)(Dashboard);
-//withRouter(Dashboard)
-//{this.props.auth.accessToken}
-//{this.props.match.params.accessToken}
-//{this.props.me ? `email : ${this.props.me.email}` : ''}
-
-/*
-<ul>
-  <li>hellos</li>
-  <li>
-    {this.props.auth ? this.props.auth.accessToken : ''}
-    {this.props.nowPlaying ? 'got now playing!' : 'no music yet'}
-  </li>
-</ul>
-*/
-
-//this.props.fetch_music(this.props.auth.accessToken);
-/*
-console.log('dashboard props');
-console.log(this.props.auth);
-if (this.props.auth && this.state.accessToken === null) {
-  this.state = { accessToken: this.props.auth.accessToken };
-  this.props.fetch_now_playing();
-}
-console.log('dashboard NP');
-console.log(this.props.nowPlaying);
-*/

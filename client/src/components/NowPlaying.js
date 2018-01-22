@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import * as actions from '../actions';
 import { connect } from 'react-redux';
+import '../style/playerStyle.css';
 
 class NowPlaying extends Component {
   constructor(props) {
@@ -17,13 +18,13 @@ class NowPlaying extends Component {
     if (this.props.track) {
       return (
         <div>
-          <div className="row">
+          <div className="row player-wrapper">
             <div className="col s6 offset-s3">
               <div className="card">
                 <div className="card-image">
                   <img src={this.props.track.album.images[0].url} />
                   <span
-                    className="card-title"
+                    className="card-title card-title-text"
                     style={{ fontWeight: 'bold', fontSize: '5 em' }}
                   >
                     {this.props.track.album.name}
@@ -53,7 +54,7 @@ class NowPlaying extends Component {
     console.log('now playing props:');
     console.log(this.props);
     return (
-      <div style={{ backgroundColor: '#4c4747' }}>
+      <div className="np-bg-img">
         {this.renderCard()}
       </div>
     );

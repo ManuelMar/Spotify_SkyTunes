@@ -3,12 +3,15 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 
+import Landing from './Landing';
 import Header from './Header';
 import Dashboard from './Dashboard';
 
+/*
 const Landing = () => {
   return <div>Landing</div>;
 };
+*/
 /*
 const Dashboard = () => {
   return <div>Dashboard</div>;

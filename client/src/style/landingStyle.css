@@ -1,0 +1,22 @@
+.jumbotron {
+  box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
+  text-align: center !important;
+}
+
+.bg-image .img {
+  height: 700px;
+  max-width: 100% !important;
+}
+
+.landing-text {
+  position: absolute;
+  top: 40%;
+  left: 20%;
+  transform: translate(-20%, -50%);
+  color: white;
+  font-weight: bolder;
+}
+
+.landing-text {
+  font-size: 70px !important;
+}
