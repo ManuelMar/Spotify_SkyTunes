@@ -19,7 +19,9 @@ module.exports = app => {
         'user-read-private',
         'user-read-recently-played',
         'user-read-playback-state',
-        'user-read-currently-playing'
+        'user-read-currently-playing',
+        'playlist-modify-public',
+        'playlist-modify-private'
       ]
     }),
     (req, res) => {
@@ -34,16 +36,15 @@ module.exports = app => {
     res.send(req.user);
   });
 
+  /* ------------------------TODO: REFACTOR THIS MONSTER----------------------------*/
   app.get('/api/search', async (req, res) => {
     console.log('api/search');
     const activity = 'gym cardio';
     spotifyApi.setAccessToken(req.user.accessToken);
     spotifyApi.setRefreshToken(req.user.refreshToken);
-    const search = await spotifyApi.searchPlaylists(activity);
+    const search = await spotifyApi.searchPlaylists(activity, { limit: 40 });
     const vals = _.chain(search.body.playlists.items)
       .map(item => {
-        //console.log(item.id);
-        //console.log(item.owner.id);
         return {
           plId: item.id,
           ownerId: item.owner.id
@@ -52,45 +53,79 @@ module.exports = app => {
       .compact()
       .value();
 
-    /*
-    const trackLists = _.chain(vals)
-      .each(({ plId, ownerId }) => {
-        console.log(plId, ownerId);
-        try {
-          var tL = spotifyApi.getPlaylistTracks(ownerId, plId);
-          console.log('tl = ');
-          console.log(tL);
-        } catch (err) {
-          console.log('i died!!!!!!!!!');
-        }
-        if (tL) {
-          return tL;
-        }
-      })
-      .value();*/
-
     const trackLists = await Promise.all(
       _.chain(vals)
         .map(async ({ plId, ownerId }) => {
           var tracks = await spotifyApi.getPlaylistTracks(ownerId, plId);
-          return tracks.body.items[0].track.uri;
+          var uris = _.map(tracks.body.items, trackItem => {
+            return { key: trackItem.track.uri, val: 1 };
+          });
+          return uris;
         })
         .compact()
         .value()
     );
 
-    const trackList = await spotifyApi.getPlaylistTracks(
-      vals[0].ownerId,
-      vals[0].plId
+    // flatten track lists
+    const flatTrackLists = [].concat.apply([], trackLists);
+
+    const acc = _.chain(flatTrackLists)
+      .uniqBy('key')
+      .map(item => {
+        return {
+          key: item.key,
+          value: _.chain(flatTrackLists)
+            .filter(track => {
+              return track.key === item.key;
+            })
+            .sumBy('val')
+            .value()
+        };
+      })
+      .compact()
+      .value();
+
+    var vAcc = acc;
+    vAcc.sort((a, b) => {
+      return parseFloat(a.value) - parseFloat(b.value);
+    });
+
+    vAcc.reverse();
+    vAcc = vAcc.slice(0, 20);
+
+    const playList = _.map(vAcc, item => {
+      return item.key;
+    });
+    //console.log(playList);
+
+    //Creating the playlist and adding the playlist tracks
+    console.log('id is');
+    console.log(req.user.profile.spotifyID);
+    const statusCreatePl = await spotifyApi.createPlaylist(
+      req.user.profile.spotifyID,
+      'Skytunes ' + activity,
+      {
+        public: false
+      }
     );
-    console.log('vals =');
-    console.log(vals);
 
-    console.log('track list =');
-    console.log(trackLists);
+    console.log('status Create:');
+    console.log(statusCreatePl);
 
-    res.send(search);
+    const statusAddTracks = await spotifyApi.addTracksToPlaylist(
+      req.user.profile.spotifyID,
+      statusCreatePl.body.id,
+      playList
+    );
+
+    console.log('status Add:');
+    console.log(statusAddTracks);
+
+    //await spotifyApi.createPlaylist(req.user.id, search, { public: false });
+    res.send(vAcc);
   });
+
+  /* -------------------------------------------------------------*/
 
   app.get('/api/current_user', (req, res) => {
     if (req.user) {

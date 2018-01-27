@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
+const activitySchema = require('./Activity');
 
 const userSchema = new Schema({
   profile: {
@@ -7,7 +8,8 @@ const userSchema = new Schema({
     userName: String
   },
   accessToken: String,
-  refreshToken: String
+  refreshToken: String,
+  activities: [activitySchema]
 });
 
 mongoose.model('users', userSchema);
