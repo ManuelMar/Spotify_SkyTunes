@@ -43,15 +43,16 @@ module.exports = app => {
   // TODO: Handle deleting a playlist in spotify ... Hope for the best
   app.get('/api/search', requireLogin, async (req, res) => {
     console.log('api/search');
-    const activity = 'bailar';
+    //console.log(req.user._id);
+    const activity = 'Dinner';
     spotifyApi.setAccessToken(req.user.accessToken);
     spotifyApi.setRefreshToken(req.user.refreshToken);
 
     const existingActivity = await Activity.findOne({
-      _user: req.user.id,
+      _user: req.user._id,
       name: activity
     });
-
+    console.log(req.user._id);
     //console.log(existingActivity);
 
     if (existingActivity) {
@@ -135,7 +136,7 @@ module.exports = app => {
         playListId: statusCreatePl.body.id,
         createdOn: Date.now(),
         lastModified: Date.now(),
-        _user: req.user.id
+        _user: req.user._id
       }).save();
       console.log('saved activity');
       console.log(newActivity);
