@@ -4,6 +4,8 @@ import * as actions from '../actions';
 import NowPlaying from './NowPlaying';
 //import { withRouter } from 'react-router';
 
+//TODO: ADD SEARCH BAR for activty
+
 class Dashboard extends Component {
   constructor(props) {
     super(props);

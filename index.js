@@ -35,7 +35,7 @@ PORT = process.env.PORT || 5000;
 app.listen(PORT);
 
 /*
-Implement Activity based playlists:
+TODO: Implement Activity based playlists:
   1. ask user what theyre doing (log and display)
   2. collect data on their tracks
   3. suggest playlist

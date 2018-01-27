@@ -2,6 +2,8 @@ import axios from 'axios';
 import { FETCH_USER, FETCH_NOW_PLAYING, FETCH_TRACK_INFO } from './types';
 import Spotify from 'spotify-web-api-js';
 
+// TODO: Implement polling every 20 sec or so to get latest now playing track
+
 const spotifyApi = new Spotify();
 
 // thunk automatically passes on dispatch

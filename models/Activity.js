@@ -5,7 +5,8 @@ const activitySchema = new Schema({
   name: String,
   playListId: String,
   createdOn: Date,
-  lastModified: Date
+  lastModified: Date,
+  _user: { type: Schema.Types.ObjectId, ref: 'User' }
 });
 
-module.exports = activitySchema;
+mongoose.model('activity', activitySchema);

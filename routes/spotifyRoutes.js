@@ -4,6 +4,10 @@ const _ = require('lodash');
 const requireLogin = require('../middlewares/requireLogin');
 const keys = require('../config/keys');
 
+const mongoose = require('mongoose');
+const User = mongoose.model('users');
+const Activity = mongoose.model('activity');
+
 const spotifyApi = new Spotify({
   clientId: keys.spotifyClientId,
   clientSecret: keys.spotifyClientSecret,
@@ -25,24 +29,26 @@ module.exports = app => {
       ]
     }),
     (req, res) => {
-      // The request will be redirected to spotify for authentication, so this
-      // function will not be called.
       console.log('attempting to auth');
     }
   );
 
   app.get('/db/current_user', (req, res) => {
-    //console.log(req.user);
     res.send(req.user);
   });
 
   /* ------------------------TODO: REFACTOR THIS MONSTER----------------------------*/
-  app.get('/api/search', async (req, res) => {
+  // TODO: Add logic to check if a playlist already exists with this activity
+  // and return that instead
+  // TODO: Update mongo User with activity and playlist data
+  // TODO: Extend search capability to more than 40 playlist search results
+  // (api limits at) 50 per query
+  app.get('/api/search', requireLogin, async (req, res) => {
     console.log('api/search');
     const activity = 'gym cardio';
     spotifyApi.setAccessToken(req.user.accessToken);
     spotifyApi.setRefreshToken(req.user.refreshToken);
-    const search = await spotifyApi.searchPlaylists(activity, { limit: 40 });
+    const search = await spotifyApi.searchPlaylists(activity, { limit: 4 });
     const vals = _.chain(search.body.playlists.items)
       .map(item => {
         return {
@@ -96,11 +102,8 @@ module.exports = app => {
     const playList = _.map(vAcc, item => {
       return item.key;
     });
-    //console.log(playList);
 
     //Creating the playlist and adding the playlist tracks
-    console.log('id is');
-    console.log(req.user.profile.spotifyID);
     const statusCreatePl = await spotifyApi.createPlaylist(
       req.user.profile.spotifyID,
       'Skytunes ' + activity,
@@ -109,23 +112,39 @@ module.exports = app => {
       }
     );
 
-    console.log('status Create:');
-    console.log(statusCreatePl);
-
     const statusAddTracks = await spotifyApi.addTracksToPlaylist(
       req.user.profile.spotifyID,
       statusCreatePl.body.id,
       playList
     );
 
-    console.log('status Add:');
-    console.log(statusAddTracks);
+    const existingActivity = await Activity.findOne({
+      _user: req.user.id,
+      name: activity
+    });
 
-    //await spotifyApi.createPlaylist(req.user.id, search, { public: false });
-    res.send(vAcc);
+    console.log(existingActivity);
+
+    if (existingActivity) {
+      res.send(existingActivity.playListId);
+    } else {
+      const newActivity = await new Activity({
+        name: activity,
+        playListId: statusCreatePl.body.id,
+        createdOn: Date.now(),
+        lastModified: Date.now(),
+        _user: req.user.id
+      }).save();
+      console.log('saved activity');
+      console.log(newActivity);
+      res.send(newActivity.playListId);
+    }
+
+    //res.send(statusCreatePl.body.id);
   });
 
-  /* -------------------------------------------------------------*/
+  /* ----------------------------END OF MONSTER-------------------------------*/
+  /* ----------------------------!!!!!!!!!!!!!!-------------------------------*/
 
   app.get('/api/current_user', (req, res) => {
     if (req.user) {

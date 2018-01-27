@@ -1,12 +1,8 @@
 const passport = require('passport');
 const SpotifyStrategy = require('passport-spotify').Strategy;
-//const Spotify = require('spotify-web-api-node');
 const keys = require('../config/keys');
 const mongoose = require('mongoose');
-
 const User = mongoose.model('users');
-
-//const spotifyApi = new Spotify();
 
 passport.serializeUser((user, done) => {
   done(null, user);
@@ -54,18 +50,3 @@ passport.use(
     }
   )
 );
-
-/*
-const userf = {
-  accessToken: accessToken,
-  refreshToken: refreshToken
-};
-*/
-
-/*
-const userf = {
-  profile: user,
-  accessToken: accessToken,
-  refreshToken: refreshToken
-};
-*/
