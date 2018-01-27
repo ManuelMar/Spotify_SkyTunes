@@ -6,6 +6,7 @@ const cookieSession = require('cookie-session');
 const bodyParser = require('body-parser');
 
 require('./models/User');
+require('./models/Activity');
 require('./services/passport');
 
 mongoose.Promise = global.Promise; //set promise module
@@ -30,7 +31,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 require('./routes/spotifyRoutes')(app);
-
+require('./routes/activityRoutes')(app);
 PORT = process.env.PORT || 5000;
 app.listen(PORT);
 
