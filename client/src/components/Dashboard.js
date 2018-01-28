@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 import NowPlaying from './NowPlaying';
+import SearchBar from './SearchBar';
 //import { withRouter } from 'react-router';
 
 //TODO: ADD SEARCH BAR for activty
@@ -20,6 +21,7 @@ class Dashboard extends Component {
   render() {
     return (
       <div>
+        <SearchBar />
         {this.renderNowPlaying()}
       </div>
     );
