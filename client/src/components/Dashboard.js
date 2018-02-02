@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 import NowPlaying from './NowPlaying';
 import SearchBar from './SearchBar';
+import PlaylistViewer from './PlaylistViewer';
 //import { withRouter } from 'react-router';
 
 //TODO: ADD SEARCH BAR for activty
@@ -23,6 +24,7 @@ class Dashboard extends Component {
       <div>
         <SearchBar />
         {this.renderNowPlaying()}
+        <PlaylistViewer />
       </div>
     );
   }

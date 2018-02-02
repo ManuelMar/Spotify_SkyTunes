@@ -15,7 +15,10 @@ const Landing = () => {
 /*
 const Dashboard = () => {
   return <div>Dashboard</div>;
-};*/
+};
+
+color : #d5d5d5
+*/
 
 class App extends Component {
   constructor(props) {

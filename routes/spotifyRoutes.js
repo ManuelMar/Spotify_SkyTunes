@@ -41,10 +41,11 @@ module.exports = app => {
   // TODO: Extend search capability to more than 40 playlist search results
   // (api limits at) 50 per query
   // TODO: Handle deleting a playlist in spotify ... Hope for the best
-  app.get('/api/search', requireLogin, async (req, res) => {
+  app.post('/api/search', requireLogin, async (req, res) => {
     console.log('api/search');
     //console.log(req.user._id);
-    const activity = 'Dinner';
+    console.log(req.body.activity);
+    const activity = req.body.activity;
     spotifyApi.setAccessToken(req.user.accessToken);
     spotifyApi.setRefreshToken(req.user.refreshToken);
 
@@ -138,9 +139,11 @@ module.exports = app => {
         lastModified: Date.now(),
         _user: req.user._id
       }).save();
-      console.log('saved activity');
-      console.log(newActivity);
+      //console.log('saved activity');
+      //console.log(newActivity);
       console.log('Done new playlist');
+      // probably want to return more than jsut the id, image and what not
+
       res.send(newActivity.playListId);
     }
   });

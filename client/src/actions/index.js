@@ -1,5 +1,10 @@
 import axios from 'axios';
-import { FETCH_USER, FETCH_NOW_PLAYING, FETCH_TRACK_INFO } from './types';
+import {
+  FETCH_USER,
+  FETCH_NOW_PLAYING,
+  FETCH_TRACK_INFO,
+  FETCH_PLAYLIST
+} from './types';
 import Spotify from 'spotify-web-api-js';
 
 // TODO: Implement polling every 20 sec or so to get latest now playing track
@@ -22,6 +27,7 @@ export const fetch_now_playing = () => async (dispatch, getState) => {
   const resFail = null;
 
   if (getState().auth) {
+    //console.log(getState().auth);
     const aToken = getState().auth.accessToken;
     spotifyApi.setAccessToken(aToken);
     const res = await spotifyApi.getMyCurrentPlayingTrack();
@@ -39,5 +45,22 @@ export const fetch_track_info = trackId => async (dispatch, getState) => {
     dispatch({ type: FETCH_TRACK_INFO, payload: res });
   } else {
     dispatch({ type: FETCH_TRACK_INFO, payload: null });
+  }
+};
+
+export const create_playlist = activity => async (dispatch, getState) => {
+  if (getState().auth) {
+    const aToken = getState().auth.accessToken;
+    spotifyApi.setAccessToken(aToken);
+    const plId = await axios.post('/api/search', { activity });
+    console.log(plId.data);
+    const pl = await spotifyApi.getPlaylistTracks(
+      getState().auth.profile.spotifyID,
+      plId.data
+    );
+    console.log(pl);
+    dispatch({ type: FETCH_PLAYLIST, payload: pl });
+  } else {
+    dispatch({ type: FETCH_PLAYLIST, payload: null });
   }
 };

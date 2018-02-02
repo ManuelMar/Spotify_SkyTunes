@@ -1,3 +1,7 @@
 .search-bar-label {
   font-size: 250% !important;
 }
+
+.row .col {
+  padding: 2 !important;
+}

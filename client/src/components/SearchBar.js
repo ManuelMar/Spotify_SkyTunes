@@ -1,5 +1,7 @@
-import React, { Component } from 'react';
 import '../style/searchStyle.css';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import * as actions from '../actions';
 
 class SearchBar extends Component {
   constructor(props) {
@@ -11,8 +13,14 @@ class SearchBar extends Component {
   }
 
   onInputChange(term) {
-    if (term != '') this.setState({ term, label: '' });
-    else this.setState({ term, label: 'What are you doing?' });
+    if (term !== '') this.setState({ term, label: '' });
+    else this.setState({ term, label: 'Whatcha up to?' });
+  }
+
+  handleClick(e) {
+    e.preventDefault(); // necessary to prevent materialize from overriding event
+    console.log('clicked');
+    this.props.create_playlist(this.state.term);
   }
 
   render() {
@@ -33,14 +41,14 @@ class SearchBar extends Component {
               {this.state.label}
             </label>
           </div>
-          <div className="input-field col s2">
-            <button
-              className="btn waves-effect waves-light"
-              type="submit"
-              name="action"
-            >
-              Go!
-            </button>
+          <div
+            onClick={e => {
+              this.handleClick(e);
+            }}
+          >
+            <div className="input-field col s2">
+              <button className="btn waves-effect waves-light">Go!</button>
+            </div>
           </div>
         </div>
       </div>
@@ -48,4 +56,8 @@ class SearchBar extends Component {
   }
 }
 
-export default SearchBar;
+function mapStateToProps({ playlist }) {
+  return { playlist };
+}
+
+export default connect(mapStateToProps, actions)(SearchBar);
