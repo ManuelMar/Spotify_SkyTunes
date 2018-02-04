@@ -6,9 +6,11 @@ Sky Tunes is a simple app built on the MERN (Mongo, Express, React-Redux, Node) 
 Have some fun with the Spotify Api while getting more familiar with the MERN stack.
 
 ## In Action:
-<img src="https://media.giphy.com/media/3ohs4A7EBOQNntp6XS/giphy.gif" height="500"/>
-<img src="https://media.giphy.com/media/l4pT5B0R5JUPGeodG/giphy.gif" height="500"/>
-<img src="https://media.giphy.com/media/3ohs4f7FDQsmyslXA4/giphy.gif" height="500"/>
+<p float = "left">
+<img src="https://media.giphy.com/media/3ohs4A7EBOQNntp6XS/giphy.gif" height="400"/>
+<img src="https://media.giphy.com/media/l4pT5B0R5JUPGeodG/giphy.gif" height="400"/>
+<img src="https://media.giphy.com/media/3ohs4f7FDQsmyslXA4/giphy.gif" height="400"/>
+</p>
 
 ## Getting Started
 
