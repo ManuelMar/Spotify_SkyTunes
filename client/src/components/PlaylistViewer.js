@@ -4,16 +4,33 @@ import { connect } from 'react-redux';
 class PlaylistViewer extends Component {
   renderPlaylist() {
     if (this.props.playlist) {
-      console.log(this.props.playlist);
-      return this.props.playlist.items.map(item => {
+      console.log(this.props.playlist.pl);
+      return this.props.playlist.pl.items.map(item => {
         return (
-          <li className="collection-item" key={item.id}>
-            <label>
+          <li className="collection-item" key={item.track.id}>
+            <span>
               {item.track.name}
-            </label>
+            </span>
+            <span style={{ float: 'right' }}>
+              {item.track.artists[0].name}
+            </span>
           </li>
         );
       });
+    }
+  }
+
+  renderTitle() {
+    if (this.props.playlist) {
+      return (
+        <li className="collection-header">
+          <h4>
+            <a href={this.props.playlist.pl.href}>
+              Skytunes: {this.props.playlist.name}
+            </a>
+          </h4>
+        </li>
+      );
     }
   }
 
@@ -21,9 +38,7 @@ class PlaylistViewer extends Component {
     return (
       <div>
         <ul className="collection with-header">
-          <li className="collection-header">
-            <h4>Playlist:</h4>
-          </li>
+          {this.renderTitle()}
           {this.renderPlaylist()}
         </ul>
       </div>

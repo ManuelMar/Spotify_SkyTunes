@@ -56,10 +56,15 @@ export const create_playlist = activity => async (dispatch, getState) => {
     console.log(plId.data);
     const pl = await spotifyApi.getPlaylistTracks(
       getState().auth.profile.spotifyID,
-      plId.data
+      plId.data.playListId
     );
     console.log(pl);
-    dispatch({ type: FETCH_PLAYLIST, payload: pl });
+    const plData = {
+      pl: pl,
+      name: plId.data.name
+    };
+    console.log(plData);
+    dispatch({ type: FETCH_PLAYLIST, payload: plData });
   } else {
     dispatch({ type: FETCH_PLAYLIST, payload: null });
   }

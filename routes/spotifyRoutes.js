@@ -144,7 +144,7 @@ module.exports = app => {
       console.log('Done new playlist');
       // probably want to return more than jsut the id, image and what not
 
-      res.send(newActivity.playListId);
+      res.send(newActivity);
     }
   });
 

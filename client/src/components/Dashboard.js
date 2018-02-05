@@ -6,7 +6,7 @@ import SearchBar from './SearchBar';
 import PlaylistViewer from './PlaylistViewer';
 //import { withRouter } from 'react-router';
 
-//TODO: ADD SEARCH BAR for activty
+//TODO: ADD SEARCH BAR for recomended activty
 
 class Dashboard extends Component {
   constructor(props) {

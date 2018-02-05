@@ -42,6 +42,17 @@ class NowPlaying extends Component {
                     </li>
                   </ul>
                 </div>
+                <div className="card-action center">
+                  <button className="btn waves-effect waves-light">
+                    <i className="material-icons left"> skip_previous</i>
+                  </button>
+                  <button className="btn waves-effect waves-light">
+                    <i className="material-icons center"> play_arrow</i>
+                  </button>
+                  <button className="btn waves-effect waves-light">
+                    <i className="material-icons right"> skip_next</i>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
