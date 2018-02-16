@@ -38,19 +38,6 @@ class NowPlaying extends Component {
       });
   }
 
-  onPlayClick(e) {
-    this.props
-      .pause_track()
-      .then(() => {
-        this.props.fetch_now_playing().then(() => {
-          this.props.fetch_track_info(this.props.nowPlaying.item.id);
-        });
-      })
-      .then(() => {
-        return;
-      });
-  }
-
   renderCard() {
     if (this.props.track) {
       return (
@@ -85,12 +72,6 @@ class NowPlaying extends Component {
                     className="btn waves-effect waves-light"
                   >
                     <i className="material-icons left"> skip_previous</i>
-                  </button>
-                  <button
-                    onClick={e => this.onPlayClick(e)}
-                    className="btn waves-effect waves-light"
-                  >
-                    <i className="material-icons center"> play_arrow</i>
                   </button>
                   <button
                     onClick={e => this.onNextClick(e)}

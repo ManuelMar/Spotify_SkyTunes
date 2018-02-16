@@ -78,14 +78,14 @@ export const next_track = () => async (dispatch, getState) => {
     const aToken = getState().auth.accessToken;
     spotifyApi.setAccessToken(aToken);
     const nextTrack = await spotifyApi.skipToNext({}).then(async () => {
-      const res = await spotifyApi.getMyCurrentPlayingTrack(); //
+      await spotifyApi.getMyCurrentPlayingTrack(); //
     });
     //const res = await spotifyApi.getMyCurrentPlayingTrack();
     //console.log('getmy current track is ');
     //console.log(nextTrack);
     dispatch({ type: NEXT_TRACK, payload: true });
   } else {
-    dispatch({ type: NEXT_TRACK, payload: null });
+    dispatch({ type: NEXT_TRACK, payload: false });
   }
 };
 
@@ -94,27 +94,13 @@ export const prev_track = () => async (dispatch, getState) => {
     const aToken = getState().auth.accessToken;
     spotifyApi.setAccessToken(aToken);
     const nextTrack = await spotifyApi.skipToPrevious({}).then(async () => {
-      const res = await spotifyApi.getMyCurrentPlayingTrack(); //
+      await spotifyApi.getMyCurrentPlayingTrack(); //
     });
     //const res = await spotifyApi.getMyCurrentPlayingTrack();
     //console.log('getmy current track is ');
     //console.log(nextTrack);
     dispatch({ type: NEXT_TRACK, payload: true });
   } else {
-    dispatch({ type: NEXT_TRACK, payload: null });
-  }
-};
-
-export const pause_track = () => async (dispatch, getState) => {
-  if (getState().auth) {
-    const aToken = getState().auth.accessToken;
-    spotifyApi.setAccessToken(aToken);
-    const nextTrack = await spotifyApi.pause({});
-    //const res = await spotifyApi.getMyCurrentPlayingTrack();
-    //console.log('getmy current track is ');
-    //console.log(nextTrack);
-    dispatch({ type: NEXT_TRACK, payload: true });
-  } else {
-    dispatch({ type: NEXT_TRACK, payload: null });
+    dispatch({ type: NEXT_TRACK, payload: false });
   }
 };

@@ -49,7 +49,6 @@ class App extends Component {
             <Header />
             <Route exact path="/" component={Landing} />
             <Route exact path="/music" component={Dashboard} />
-            <PlaylistViewer />
           </div>
         </BrowserRouter>
       </div>

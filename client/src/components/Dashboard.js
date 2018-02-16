@@ -9,11 +9,6 @@ import PlaylistViewer from './PlaylistViewer';
 //TODO: ADD SEARCH BAR for recomended activty
 
 class Dashboard extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
   renderNowPlaying() {
     if (this.props.nowPlaying)
       return <NowPlaying song={this.props.nowPlaying} />;
@@ -24,6 +19,7 @@ class Dashboard extends Component {
       <div>
         <SearchBar />
         {this.renderNowPlaying()}
+        <PlaylistViewer />
       </div>
     );
   }

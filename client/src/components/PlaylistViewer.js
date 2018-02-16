@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 class PlaylistViewer extends Component {
   renderPlaylist() {
     if (this.props.playlist) {
-      console.log(this.props.playlist.pl);
       return this.props.playlist.pl.items.map(item => {
         return (
           <li className="collection-item" key={item.track.id}>
@@ -35,6 +34,8 @@ class PlaylistViewer extends Component {
   }
 
   render() {
+    console.log('a playlist');
+    console.log(this.props.playlist);
     return (
       <div>
         <ul className="collection with-header">
@@ -49,4 +50,5 @@ class PlaylistViewer extends Component {
 function mapStateToProps({ playlist }) {
   return { playlist };
 }
+
 export default connect(mapStateToProps)(PlaylistViewer);
