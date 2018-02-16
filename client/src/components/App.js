@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
+import PlaylistViewer from './PlaylistViewer';
 
 import Landing from './Landing';
 import Header from './Header';
@@ -35,7 +36,7 @@ class App extends Component {
       //console.log('DONE FETCHING USER');
       this.props.fetch_now_playing().then(() => {
         //console.log('got now playing');
-        this.setState({ done: true });
+        //this.setState({ done: true });
       });
     });
   }
@@ -48,6 +49,7 @@ class App extends Component {
             <Header />
             <Route exact path="/" component={Landing} />
             <Route exact path="/music" component={Dashboard} />
+            <PlaylistViewer />
           </div>
         </BrowserRouter>
       </div>
@@ -55,4 +57,8 @@ class App extends Component {
   }
 }
 
-export default connect(null, actions)(App);
+function mapStateToProps({ track, nowPlaying, next }) {
+  return { track, nowPlaying, next };
+}
+
+export default connect(mapStateToProps, actions)(App);

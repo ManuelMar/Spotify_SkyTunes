@@ -4,14 +4,51 @@ import { connect } from 'react-redux';
 import '../style/playerStyle.css';
 
 class NowPlaying extends Component {
-  constructor(props) {
-    super(props);
+  componentDidMount() {
+    if (this.props.nowPlaying) {
+      this.props.fetch_track_info(this.props.nowPlaying.item.id);
+    }
   }
 
-  componentDidMount() {
-    if (this.props.song) {
-      this.props.fetch_track_info(this.props.song.item.id);
-    }
+  onNextClick(e) {
+    //e.preventDefault();
+    this.props
+      .next_track()
+      .then(() => {
+        this.props.fetch_now_playing().then(() => {
+          this.props.fetch_track_info(this.props.nowPlaying.item.id);
+        });
+      })
+      .then(() => {
+        return;
+      });
+  }
+
+  onBackClick(e) {
+    //e.preventDefault();
+    this.props
+      .prev_track()
+      .then(() => {
+        this.props.fetch_now_playing().then(() => {
+          this.props.fetch_track_info(this.props.nowPlaying.item.id);
+        });
+      })
+      .then(() => {
+        return;
+      });
+  }
+
+  onPlayClick(e) {
+    this.props
+      .pause_track()
+      .then(() => {
+        this.props.fetch_now_playing().then(() => {
+          this.props.fetch_track_info(this.props.nowPlaying.item.id);
+        });
+      })
+      .then(() => {
+        return;
+      });
   }
 
   renderCard() {
@@ -43,13 +80,22 @@ class NowPlaying extends Component {
                   </ul>
                 </div>
                 <div className="card-action center">
-                  <button className="btn waves-effect waves-light">
+                  <button
+                    onClick={e => this.onBackClick(e)}
+                    className="btn waves-effect waves-light"
+                  >
                     <i className="material-icons left"> skip_previous</i>
                   </button>
-                  <button className="btn waves-effect waves-light">
+                  <button
+                    onClick={e => this.onPlayClick(e)}
+                    className="btn waves-effect waves-light"
+                  >
                     <i className="material-icons center"> play_arrow</i>
                   </button>
-                  <button className="btn waves-effect waves-light">
+                  <button
+                    onClick={e => this.onNextClick(e)}
+                    className="btn waves-effect waves-light"
+                  >
                     <i className="material-icons right"> skip_next</i>
                   </button>
                 </div>
@@ -72,8 +118,8 @@ class NowPlaying extends Component {
   }
 }
 
-function mapStateToProps({ track }) {
-  return { track };
+function mapStateToProps({ track, next, nowPlaying }) {
+  return { track, next, nowPlaying };
 }
 
 export default connect(mapStateToProps, actions)(NowPlaying);

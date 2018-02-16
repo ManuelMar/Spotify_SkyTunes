@@ -24,7 +24,6 @@ class Dashboard extends Component {
       <div>
         <SearchBar />
         {this.renderNowPlaying()}
-        <PlaylistViewer />
       </div>
     );
   }

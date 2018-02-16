@@ -3,7 +3,8 @@ import {
   FETCH_USER,
   FETCH_NOW_PLAYING,
   FETCH_TRACK_INFO,
-  FETCH_PLAYLIST
+  FETCH_PLAYLIST,
+  NEXT_TRACK
 } from './types';
 import Spotify from 'spotify-web-api-js';
 
@@ -22,7 +23,7 @@ export const fetch_user = () => async dispatch => {
 };
 
 export const fetch_now_playing = () => async (dispatch, getState) => {
-  //console.log('fetch_now_playing');
+  console.log('fetch_now_playing');
   //console.log('getting state in action');
   const resFail = null;
 
@@ -31,6 +32,8 @@ export const fetch_now_playing = () => async (dispatch, getState) => {
     const aToken = getState().auth.accessToken;
     spotifyApi.setAccessToken(aToken);
     const res = await spotifyApi.getMyCurrentPlayingTrack();
+    //console.log('now playing is currently:');
+    //console.log(res);
     dispatch({ type: FETCH_NOW_PLAYING, payload: res });
   } else {
     dispatch({ type: FETCH_NOW_PLAYING, payload: resFail });
@@ -67,5 +70,51 @@ export const create_playlist = activity => async (dispatch, getState) => {
     dispatch({ type: FETCH_PLAYLIST, payload: plData });
   } else {
     dispatch({ type: FETCH_PLAYLIST, payload: null });
+  }
+};
+
+export const next_track = () => async (dispatch, getState) => {
+  if (getState().auth) {
+    const aToken = getState().auth.accessToken;
+    spotifyApi.setAccessToken(aToken);
+    const nextTrack = await spotifyApi.skipToNext({}).then(async () => {
+      const res = await spotifyApi.getMyCurrentPlayingTrack(); //
+    });
+    //const res = await spotifyApi.getMyCurrentPlayingTrack();
+    //console.log('getmy current track is ');
+    //console.log(nextTrack);
+    dispatch({ type: NEXT_TRACK, payload: true });
+  } else {
+    dispatch({ type: NEXT_TRACK, payload: null });
+  }
+};
+
+export const prev_track = () => async (dispatch, getState) => {
+  if (getState().auth) {
+    const aToken = getState().auth.accessToken;
+    spotifyApi.setAccessToken(aToken);
+    const nextTrack = await spotifyApi.skipToPrevious({}).then(async () => {
+      const res = await spotifyApi.getMyCurrentPlayingTrack(); //
+    });
+    //const res = await spotifyApi.getMyCurrentPlayingTrack();
+    //console.log('getmy current track is ');
+    //console.log(nextTrack);
+    dispatch({ type: NEXT_TRACK, payload: true });
+  } else {
+    dispatch({ type: NEXT_TRACK, payload: null });
+  }
+};
+
+export const pause_track = () => async (dispatch, getState) => {
+  if (getState().auth) {
+    const aToken = getState().auth.accessToken;
+    spotifyApi.setAccessToken(aToken);
+    const nextTrack = await spotifyApi.pause({});
+    //const res = await spotifyApi.getMyCurrentPlayingTrack();
+    //console.log('getmy current track is ');
+    //console.log(nextTrack);
+    dispatch({ type: NEXT_TRACK, payload: true });
+  } else {
+    dispatch({ type: NEXT_TRACK, payload: null });
   }
 };

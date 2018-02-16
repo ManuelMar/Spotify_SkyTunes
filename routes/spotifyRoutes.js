@@ -25,7 +25,8 @@ module.exports = app => {
         'user-read-playback-state',
         'user-read-currently-playing',
         'playlist-modify-public',
-        'playlist-modify-private'
+        'playlist-modify-private',
+        'user-modify-playback-state'
       ]
     }),
     (req, res) => {
